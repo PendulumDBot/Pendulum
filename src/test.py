@@ -3,7 +3,7 @@ TOKEN = "MTA5MzQ3NjU2ODMyOTg4MzcyOQ.Gfn6QJ.PDMGlZVKOXeBeTqwJFUyWiW3ypbGrPOsYgn7N
 
 def main():
 
-    client = discord.Client(intents=discord.Intents.default())
+    client = discord.Client(intents=discord.Intents().all())
 
     @client.event
     async def on_ready():
