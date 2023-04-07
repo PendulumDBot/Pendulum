@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import botFunc
 
 TOKEN = "MTA5MzQ3NjU2ODMyOTg4MzcyOQ.Gfn6QJ.PDMGlZVKOXeBeTqwJFUyWiW3ypbGrPOsYgn7No"
 
@@ -20,8 +21,8 @@ def main():
     #Basic Hello!, Command using @bot.command. (time is the command, 
     #prefix not needed as already stated)
     @bot.command()
-    async def time(ctx):
-        await ctx.send('Hello!')
+    async def time(ctx, args):
+        await ctx.send(botFunc.getTime(args))
 
     #Running Bot
     bot.run(TOKEN)
