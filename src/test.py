@@ -24,6 +24,16 @@ def main():
     async def time(ctx, args):
         await ctx.send(botFunc.getTime(args))
 
+    @bot.command()
+    async def timeEmbed(ctx, args):
+        name = bot.user.display_name
+        dp = bot.user.display_avatar
+
+        embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
+        embed.add_field(name='The time is currently : ',value = f'{botFunc.getTime(args)} at {args}')
+
+        await ctx.send(embed=embed)
+
     #Running Bot
     bot.run(TOKEN)
 
