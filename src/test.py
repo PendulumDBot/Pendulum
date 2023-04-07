@@ -1,23 +1,30 @@
 import discord
+from discord.ext import commands
+
 TOKEN = "MTA5MzQ3NjU2ODMyOTg4MzcyOQ.Gfn6QJ.PDMGlZVKOXeBeTqwJFUyWiW3ypbGrPOsYgn7No"
 
+#Intents
+intents=discord.Intents.default()
+intents.message_content = True
+
 def main():
+    
+    #Bot Constructor
+    bot = commands.Bot(command_prefix ='&', intents=intents)
 
-    client = discord.Client(intents=discord.Intents().all())
-
-    @client.event
+    #On Launch
+    @bot.event
     async def on_ready():
-        print('Tick Tock... I am {0.user}'.format(client))
+        print(f'Tick Tock.... Hi, I am {bot.user}')
+    
+    #Basic Hello!, Command using @bot.command. (time is the command, 
+    #prefix not needed as already stated)
+    @bot.command()
+    async def time(ctx):
+        await ctx.send('Hello!')
 
-    @client.event
-    async def on_message(message):
-        if message.author == client.user:
-            return
-
-        if message.content.startswith('&time'):
-            await message.channel.send('Hello!')
-
-    client.run(TOKEN)
+    #Running Bot
+    bot.run(TOKEN)
 
 
 
