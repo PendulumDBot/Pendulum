@@ -1,5 +1,5 @@
 from datetime import datetime
-from geopy.geocoders import Nominatim
+import json
 from timezonefinder import TimezoneFinder
 import pytz
 from time import perf_counter
@@ -10,13 +10,24 @@ TF = TimezoneFinder()
 
 def getTime(location):
     tstart = perf_counter()
-    geolocator = Nominatim(user_agent="pendulum")
-    coords = geolocator.geocode(location)
-    tz = TF.timezone_at(lng=coords.longitude, lat=coords.latitude)
+    params = {'q': location,'format':'json'}
+    response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=30)
+    geocode = json.loads(response.text)[0]
+
+    #print(json.dumps(geocode, indent = 2, sort_keys=True))
+    locationName = geocode.get("display_name")
+
+    lat = float(geocode.get("lat"))
+    lon = float(geocode.get("lon"))
+
+    tz = TF.timezone_at(lng=lon, lat=lat)
     tend = perf_counter()
+
     print(tend-tstart)
-    return (datetime.now(pytz.timezone(tz)),coords)
+    return (datetime.now(pytz.timezone(tz)),locationName)
 
 def getWeather(location):
     response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
     return response.text
+
+
