@@ -14,6 +14,8 @@ def getTime(location):
     tz = TF.timezone_at(lng=coords.longitude, lat=coords.latitude)
     tend = perf_counter()
     print(tend-tstart)
-    return datetime.now(pytz.timezone(tz))
+    return (datetime.now(pytz.timezone(tz)),coords)
+
+
     
    
