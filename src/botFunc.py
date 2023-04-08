@@ -3,6 +3,7 @@ from geopy.geocoders import Nominatim
 from timezonefinder import TimezoneFinder
 import pytz
 from time import perf_counter
+import requests
 
 global TF
 TF = TimezoneFinder()
@@ -16,6 +17,6 @@ def getTime(location):
     print(tend-tstart)
     return (datetime.now(pytz.timezone(tz)),coords)
 
-
-    
-   
+def getWeather(location):
+    response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
+    return response.text
