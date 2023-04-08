@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import botFunc
+from .botFunc import getTime, getWeather
 
 TOKEN = "MTA5MzQ3NjU2ODMyOTg4MzcyOQ.Gfn6QJ.PDMGlZVKOXeBeTqwJFUyWiW3ypbGrPOsYgn7No"
 
@@ -22,13 +22,13 @@ def main():
     #prefix not needed as already stated)
     @bot.command()
     async def time(ctx, args):
-        await ctx.send(botFunc.getTime(args))
+        await ctx.send(getTime(args))
 
     @bot.command()
     async def timeEmbed(ctx, args):
         name = bot.user.display_name
         dp = bot.user.display_avatar
-        (currentTime, targetLoc) = botFunc.getTime(args)
+        (currentTime, targetLoc) = getTime(args)
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
         embed.add_field(name='The Time Is Currently: ',value = f'{currentTime} at {targetLoc}')
@@ -39,7 +39,7 @@ def main():
     async def liveWeather(ctx, args):
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name=f'The weather is: ',value = botFunc.getWeather(args))
+        embed.add_field(name=f'The weather is: ',value = getWeather(args))
 
         await ctx.send(embed=embed)
 
