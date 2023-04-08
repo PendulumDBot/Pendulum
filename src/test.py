@@ -20,12 +20,12 @@ def main():
     
     #Basic Hello!, Command using @bot.command. (time is the command, 
     #prefix not needed as already stated)
-    @bot.command()
+    '''@bot.command()
     async def time(ctx, args):
-        await ctx.send(getTime(args))
+        await ctx.send(getTime(args))'''
 
     @bot.command()
-    async def timeEmbed(ctx, args):
+    async def time(ctx, args):
         name = bot.user.display_name
         dp = bot.user.display_avatar
         (currentTime, targetLoc) = getTime(args)
