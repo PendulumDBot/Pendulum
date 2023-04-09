@@ -1,13 +1,10 @@
 import discord
 from discord.ext import commands
 from .botFunc import getTime, getWeather
-import os
-import dotenv
+from dotenv import dotenv_values
 
-thisDir = os.path.abspath(os.path.dirname(__file__))
-dotenv.load_dotenv(os.path.join(thisDir,'.env'))
-
-TOKEN = os.environ.get('TOKEN')
+secrets=dotenv_values('.env')
+TOKEN = secrets['TOKEN']
 
 #Intents
 intents=discord.Intents.default()
