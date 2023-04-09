@@ -22,7 +22,7 @@ def getTime(location):
 
     tz = TF.timezone_at(lng=lon, lat=lat)
     tend = perf_counter()
-    timeAt = datetime.now(pytz.timezone(tz)).strftime("%d-%m-%Y, %H-%m-%s")
+    timeAt = datetime.now(pytz.timezone(tz)).strftime("%Y-%b-%d %X")
 
     print(tend-tstart)
     return (timeAt,locationName)
@@ -31,4 +31,5 @@ def getWeather(location):
     response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
     return response.text
 
+getTime("Penang")
 
