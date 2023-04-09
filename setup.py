@@ -12,6 +12,7 @@ setup(
         'cffi',
         'charset-normalizer',
         'discord.py',
+        'python-dotenv',
         'frozenlist',
         'geographiclib',
         'geopy',
