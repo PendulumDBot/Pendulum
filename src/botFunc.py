@@ -30,6 +30,3 @@ def getTime(location):
 def getWeather(location):
     response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
     return response.text
-
-getTime("Penang")
-
