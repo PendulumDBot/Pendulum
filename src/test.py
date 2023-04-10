@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from botFunc import getTime, getWeather
+from .botFunc import getTime, getWeather, diffTime
 from dotenv import dotenv_values
 
 secrets=dotenv_values('.env')
@@ -42,6 +42,14 @@ def main():
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
         embed.add_field(name=f'The weather is: ',value = getWeather(args))
+
+        await ctx.send(embed=embed)
+
+    @bot.command()
+    async def timediff(ctx, args1, args2):
+
+        embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
+        embed.add_field(name=f'The difference is: ',value = diffTime(args1,args2))
 
         await ctx.send(embed=embed)
 
