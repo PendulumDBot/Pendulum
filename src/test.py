@@ -48,8 +48,13 @@ def main():
     @bot.command()
     async def timediff(ctx, args1, args2):
 
+        message,timeLoc1,timeLoc2 = diffTime(args1,args2)
+
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name=f'The difference is: ',value = diffTime(args1,args2))
+        embed.add_field(name=f'The difference is: ',value = message)
+
+        embed.add_field(name=f'Time at {args1} : {timeLoc1}',value = "")
+        embed.add_field(name=f'Time at {args2} : {timeLoc2}',value = "")
 
         await ctx.send(embed=embed)
 

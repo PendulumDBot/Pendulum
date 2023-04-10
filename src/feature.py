@@ -9,5 +9,6 @@ def geocodeForward(location):
 def getLocationInfo(location):
     return { "LocationName" : location.get("display_name"),
                  "lat" : float(location.get("lat")),
-                 "lon" : float(location.get("lon"))}
+                 "lon" : float(location.get("lon"))
+                 }
 

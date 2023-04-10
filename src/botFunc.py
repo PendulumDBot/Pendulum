@@ -31,17 +31,22 @@ def getWeather(location):
 
 
 def diffTime(initLoc, targetLoc):
-    timeLoc1 = geocodeForward(initLoc)
-    timeLoc2 = geocodeForward(targetLoc)
+    Loc1 = geocodeForward(initLoc)
+    Loc2 = geocodeForward(targetLoc)
 
-    locInfo1 = getLocationInfo(timeLoc1)
-    locInfo2 = getLocationInfo(timeLoc2)
+    #get json info
+    locInfo1 = getLocationInfo(Loc1)
+    locInfo2 = getLocationInfo(Loc2)
 
+    #get Timezone at Coords
     tz1 = TF.timezone_at(lng=locInfo1["lon"], lat=locInfo1["lat"])
     tz2 = TF.timezone_at(lng=locInfo2["lon"], lat=locInfo2["lat"])
-    
-    time1 = int(datetime.now(pytz.timezone(tz1)).strftime('%z'))//100
-    time2 = int(datetime.now(pytz.timezone(tz2)).strftime('%z'))//100
+
+    timeLoc1 = datetime.now(pytz.timezone(tz1))
+    timeLoc2 = datetime.now(pytz.timezone(tz2))
+
+    time1 = int(timeLoc1.strftime('%z'))//100
+    time2 = int(timeLoc2.strftime('%z'))//100
 
     if(time1 < time2):
         message = (f'{locInfo1["LocationName"]} is behind {locInfo2["LocationName"]}'
@@ -49,8 +54,9 @@ def diffTime(initLoc, targetLoc):
     else:
        message = (f'{locInfo1["LocationName"]} is ahead {locInfo2["LocationName"]}'
                    f' by {time1 - time2} hour(s)')
+
     
-    return message
+    return message , timeLoc1.strftime("%b-%d, %X"), timeLoc2.strftime("%b-%d, %X")
     
-print(diffTime("penang", "bkk"))
+
 
