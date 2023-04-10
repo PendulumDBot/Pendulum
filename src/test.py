@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from .botFunc import getTime, getWeather
+from botFunc import getTime, getWeather
 from dotenv import dotenv_values
 
 secrets=dotenv_values('.env')

@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import feature
 from timezonefinder import TimezoneFinder
 import pytz
 from time import perf_counter
@@ -10,10 +11,7 @@ TF = TimezoneFinder()
 
 def getTime(location):
     tstart = perf_counter()
-    params = {'q': location,'format':'json'}
-    response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=30)
-    geocode = json.loads(response.text)[0]
-
+    geocode = feature.geocodeFoward(location)
     #print(json.dumps(geocode, indent = 2, sort_keys=True))
     locationName = geocode.get("display_name")
 
