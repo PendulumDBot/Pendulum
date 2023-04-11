@@ -21,14 +21,14 @@ def getTime(location):
 
     tz = TF.timezone_at(lng=lon, lat=lat)
     tend = perf_counter()
+    timeAt = datetime.now(pytz.timezone(tz)).strftime("%Y-%b-%d %X")
 
     print(tend-tstart)
-    return (datetime.now(pytz.timezone(tz)),locationName)
+    return (timeAt,locationName)
 
 def getWeather(location):
     response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
     return response.text
-
 
 def diffTime(initLoc, targetLoc):
     Loc1 = geocodeForward(initLoc)
@@ -58,5 +58,3 @@ def diffTime(initLoc, targetLoc):
     
     return message , timeLoc1.strftime("%b-%d, %X"), timeLoc2.strftime("%b-%d, %X")
     
-
-
