@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+from .feature import geocodeForward, getLocationInfo
 from timezonefinder import TimezoneFinder
 import pytz
 from time import perf_counter
@@ -7,13 +8,11 @@ import requests
 
 global TF
 TF = TimezoneFinder()
+format = "%Y-%b-%d %X"
 
 def getTime(location):
     tstart = perf_counter()
-    params = {'q': location,'format':'json'}
-    response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=30)
-    geocode = json.loads(response.text)[0]
-
+    geocode = geocodeForward(location)
     #print(json.dumps(geocode, indent = 2, sort_keys=True))
     locationName = geocode.get("display_name")
 
@@ -30,3 +29,32 @@ def getTime(location):
 def getWeather(location):
     response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
     return response.text
+
+def diffTime(initLoc, targetLoc):
+    Loc1 = geocodeForward(initLoc)
+    Loc2 = geocodeForward(targetLoc)
+
+    #get json info
+    locInfo1 = getLocationInfo(Loc1)
+    locInfo2 = getLocationInfo(Loc2)
+
+    #get Timezone at Coords
+    tz1 = TF.timezone_at(lng=locInfo1["lon"], lat=locInfo1["lat"])
+    tz2 = TF.timezone_at(lng=locInfo2["lon"], lat=locInfo2["lat"])
+
+    timeLoc1 = datetime.now(pytz.timezone(tz1))
+    timeLoc2 = datetime.now(pytz.timezone(tz2))
+
+    time1 = int(timeLoc1.strftime('%z'))//100
+    time2 = int(timeLoc2.strftime('%z'))//100
+
+    if(time1 < time2):
+        message = (f'{locInfo1["LocationName"]} is behind {locInfo2["LocationName"]}'
+                   f'by {time2 - time1} hour(s)')
+    else:
+       message = (f'{locInfo1["LocationName"]} is ahead {locInfo2["LocationName"]}'
+                   f' by {time1 - time2} hour(s)')
+
+    
+    return message , timeLoc1.strftime("%b-%d, %X"), timeLoc2.strftime("%b-%d, %X")
+    
