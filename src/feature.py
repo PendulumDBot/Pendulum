@@ -21,15 +21,16 @@ def findTimezone(location):
     lng = location["lon"]
     lat = location["lat"]
     response = requests.get(f"http://timezonefinder.michelfe.it/api/{mode}_{lng}_{lat}")
-    return response.text[:]
+    return json.loads(response.text)["tz_name"]
 
 def getTimeInfo(location):
     tzLocation = findTimezone(location)
     timeNow = datetime.now(timezone(tzLocation))
-    location = {"tzName" : tzLocation,
-                "currentTime" : datetime.now(timezone(findTimezone(location))),
+    timeInfo = {"tzName" : tzLocation,
+                "currentTime" : datetime.now(timezone(findTimezone(location))).strftime(FORMAT),
                 "UTCOffset" : timeNow.strftime('%z')}
 
+    return timeInfo
 
-print(findTimezone(getLocationInfo(geocodeForward("penang"))))
+print(getTimeInfo(getLocationInfo(geocodeForward("penang"))))
 
