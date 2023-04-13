@@ -1,3 +1,3 @@
-from src.test import main
+from src.bot import main
 
 main()
