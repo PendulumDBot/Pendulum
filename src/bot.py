@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from .botfeatures import getTime, getWeather, diffTime
+from .botfeatures import getTime, getWeather, diffTime, timeAt
 from dotenv import dotenv_values
 
 secrets=dotenv_values('.env')
@@ -59,20 +59,25 @@ def main():
         await ctx.send(embed=embed)
 
     @bot.command()
-    async def timeat(ctx, args1, args2, args3):
+    async def timeat(ctx, args):
 
         #args1 = time datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
         #args2 = timezone if in pytz.alltimezone else geocode. 
         #args3 = location targetLoc
+        commandArgs = args.split('_')
+        if len(commandArgs) > 3:
+            await ctx.send("Try <time/date>,<zone>,<target>")
+        
+        timeParsed,timeDisplay, initLocName, targetLocName = timeAt(commandArgs[0],commandArgs[1],commandArgs[2])\
+        
+        
+        embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
+        embed.add_field(name=f"{timeParsed} at {initLocName} is :",value = f"{timeDisplay},{targetLocName}" )
 
-        pass
-        """embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name="",value = message )
+        
 
-        embed.add_field(name=f'Time at {args1} : ',value = f"{timeLoc1}")
-        embed.add_field(name=f'Time at {args2} : ',value = f"{timeLoc2}")
+        await ctx.send(embed=embed)
 
-        await ctx.send(embed=embed)"""
     #Running Bot
     bot.run(TOKEN)
 
