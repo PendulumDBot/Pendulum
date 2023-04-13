@@ -1,6 +1,6 @@
 import json
 from timezonefinder import TimezoneFinder
-from pytz import timezone
+from pytz import timezone, all_timezones
 import requests
 from datetime import datetime
 
@@ -33,5 +33,6 @@ def getTimeInfo(location):
 
     return timeInfo
 
-print(getTimeInfo(getLocationInfo(geocodeForward("penang"))))
+#print(getTimeInfo(getLocationInfo(geocodeForward("penang"))))
+#print(all_timezones)
 
