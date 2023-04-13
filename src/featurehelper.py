@@ -19,9 +19,12 @@ def getLocationInfo(location):
                  }
 
 def findTimezone(location):
-    longitude = location["lon"]
-    latitude = location["lat"]
-    return tf.timezone_at(lng=longitude,lat=latitude)
+    if location not in all_timezones:
+        longitude = location["lon"]
+        latitude = location["lat"]
+        return tf.timezone_at(lng=longitude,lat=latitude)
+    else: 
+       return location
 
 def getTimeInfo(location):
     tzLocation = findTimezone(location)
