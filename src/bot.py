@@ -51,13 +51,28 @@ def main():
         message,timeLoc1,timeLoc2 = diffTime(args1,args2)
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name=f'The difference is: ',value = message)
+        embed.add_field(name="",value = message )
 
-        embed.add_field(name=f'Time at {args1} : {timeLoc1}',value = "")
-        embed.add_field(name=f'Time at {args2} : {timeLoc2}',value = "")
+        embed.add_field(name=f'Time at {args1} : ',value = f"{timeLoc1}")
+        embed.add_field(name=f'Time at {args2} : ',value = f"{timeLoc2}")
 
         await ctx.send(embed=embed)
 
+    @bot.command()
+    async def timeat(ctx, args1, args2, args3):
+
+        #args1 = time datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        #args2 = timezone if in pytz.alltimezone else geocode. 
+        #args3 = location targetLoc
+
+        pass
+        """embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
+        embed.add_field(name="",value = message )
+
+        embed.add_field(name=f'Time at {args1} : ',value = f"{timeLoc1}")
+        embed.add_field(name=f'Time at {args2} : ',value = f"{timeLoc2}")
+
+        await ctx.send(embed=embed)"""
     #Running Bot
     bot.run(TOKEN)
 
