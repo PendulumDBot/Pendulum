@@ -15,7 +15,7 @@ setup(
         'python-dotenv',
         'frozenlist',
         'geographiclib',
-        'geopy',
+        'python-dateutil',
         'h3',
         'idna',
         'multidict',
