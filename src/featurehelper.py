@@ -3,6 +3,7 @@ from timezonefinder import TimezoneFinder
 from pytz import timezone, all_timezones
 import requests
 from datetime import datetime
+from .weathercodes import weatherCodes
 
 FORMAT = "%Y-%b-%d %X"
 tf = TimezoneFinder()
@@ -32,6 +33,58 @@ def getTimeInfo(location):
                 "UTCOffsetHrs" :  int(timeNow.strftime('%z'))//100}
 
     return timeInfo
+
+def getCurrentWeather(lon, lat):
+
+    params = {
+        'latitude': lat,
+        'longitude': lon,
+        'current_weather': True
+    }
+
+    response = requests.get('https://api.open-meteo.com/v1/forecast', params = params, timeout = 30)
+
+    responseDictionary = json.loads(response.text)
+    currentWeather = responseDictionary['current_weather']
+
+    weatherCodeToTranslate = currentWeather['weathercode']
+
+    arrow = arrowFromWindDirection(currentWeather['winddirection'])
+
+    weatherInfo = {
+        'temp': currentWeather['temperature'],
+        'windspeed': currentWeather['windspeed'],
+        'winddirection': currentWeather['winddirection'],
+        'arrow': arrow,
+        'weathercode': weatherCodes[f's{weatherCodeToTranslate}'],
+    }
+
+    return weatherInfo
+
+def arrowFromWindDirection(direction):
+    
+    num = int(direction)//45
+    
+    match num:
+        case 0:
+            return '↓'
+        case 1:
+            return '↙'
+        case 2:
+            return '←'
+        case 3:
+            return '↖'
+        case 4:
+            return '↑'
+        case 5:
+            return '↗'
+        case 6:
+            return '→'
+        case 7:
+            return '↘'
+        case _:
+            return 'Invalid wind direction'
+        
 
 #print(getTimeInfo(getLocationInfo(geocodeForward("penang"))))
 #print(all_timezones)

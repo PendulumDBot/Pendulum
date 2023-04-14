@@ -1,6 +1,6 @@
 from datetime import datetime
 import json
-from .featurehelper import geocodeForward, getLocationInfo, getTimeInfo
+from .featurehelper import geocodeForward, getLocationInfo, getTimeInfo, getCurrentWeather
 from timezonefinder import TimezoneFinder
 import pytz
 from time import perf_counter
@@ -20,8 +20,14 @@ def getTime(location):
     return (timeInfo["currentTime"],locInfo["locationName"])
 
 def getWeather(location):
-    response = requests.get(f'http://wttr.in/{location}', params={'format': '3'}, timeout=30)
-    return response.text
+    
+    geocode = geocodeForward(location)
+    locInfo = getLocationInfo(geocode)
+
+    currentWeather = getCurrentWeather(locInfo['lon'], locInfo['lat'])
+    currentWeather['location'] = locInfo['locationName']
+
+    return currentWeather
 
 def diffTime(initLoc, targetLoc):
     Loc1 = geocodeForward(initLoc)
