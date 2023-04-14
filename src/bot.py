@@ -38,10 +38,18 @@ def main():
         await ctx.send(embed=embed)
 
     @bot.command()
-    async def liveWeather(ctx, args):
+    async def weather(ctx, args):
+
+        weatherInfo = getWeather(args)
+        temp = weatherInfo['temp']
+        windspeed = weatherInfo['windspeed']
+        winddirection = weatherInfo['winddirection']
+        arrow = weatherInfo['arrow']
+        weathercode = weatherInfo['weathercode']
+        location = weatherInfo['location']
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name=f'The weather is: ',value = getWeather(args))
+        embed.add_field(name=f'The weather at {location}: ',value = f'Temperature: {temp}°C, Wind speed: {windspeed}km/h, Wind direction: {winddirection}° {arrow}, {weathercode}')
 
         await ctx.send(embed=embed)
 
