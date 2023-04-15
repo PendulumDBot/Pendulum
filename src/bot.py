@@ -76,7 +76,7 @@ def main():
         if len(commandArgs) > 3:
             await ctx.send("Try <time/date>,<zone>,<target>")
         
-        timeParsed,timeDisplay, initLocName, targetLocName = timeAt(commandArgs[0],commandArgs[1],commandArgs[2])\
+        timeParsed,timeDisplay, initLocName, targetLocName = timeAt(commandArgs[0],commandArgs[1],commandArgs[2])
         
         
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
