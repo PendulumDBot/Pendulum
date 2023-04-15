@@ -48,26 +48,42 @@ def diffTime(initLoc, targetLoc):
     return message , getTimeInfo(locInfo1)["currentTime"], getTimeInfo(locInfo2)["currentTime"]
 
 def timeAt(time,timezone,location):
+    """Get time at location converted to target loc
+
+    Args:
+        time (_type_): _description_
+        timezone (_type_): _description_
+        location (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+
     #parse initial date/time
     initTime = datetime.strptime(parser.parse(time).strftime(FORMAT),FORMAT)
-    print(initTime)
+
+
+
     if timezone in pytz.all_timezones:
         initTz = timezone
         initTz = getTimeInfo(timezone)
+        initLocName = timezone
     else:
         initTz = geocodeForward(timezone)
-        initTz = getTimeInfo(getLocationInfo(initTz))
+        initLocTz = getLocationInfo(initTz)
+        initLocName = initLocTz["locationName"]
+        initTz = getTimeInfo(initLocTz)
 
-   
+
     initHRDiff = initTz["UTCOffsetHrs"]
     print(initHRDiff)
     timeUTC = initTime + timedelta(hours=-(initHRDiff) if initHRDiff > 0 else initHRDiff)
 
-    targetLoc = getTimeInfo(getLocationInfo(geocodeForward(location)))
+    targetLocInfo = getLocationInfo(geocodeForward(location))
+    targetLoc = getTimeInfo(targetLocInfo)
     targetHRDiff = targetLoc["UTCOffsetHrs"]
     targetTime = timeUTC + timedelta(hours=targetHRDiff)
 
-    return targetTime
+    return initTime, targetTime, initLocName, targetLocInfo["locationName"]
 
-print(diffTime("BKK","Malaysia"))
-print(timeAt("9:09 pm","GMT","UK"))
+print(timeAt("9:09","GMT","UK"))
