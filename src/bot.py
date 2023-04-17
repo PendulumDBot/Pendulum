@@ -92,6 +92,21 @@ def main():
         
 
         await ctx.send(embed=embed)
+    
+    
+    @bot.command()
+    async def help(ctx):
+        embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
+        embed.add_field(name=f":hourglass_flowing_sand: Time-Related",value = f"""1. `time` - &time <location>
+                                                                                2. `timediff` - &timediff  <location1> <location2>
+                                                                                3. `timeat` - &timeat <time>_<timezone>_<target location>""" )
+        embed.add_field(name=f":thermometer: Weather-Related",value = f"""1. `weather` - &weather <location> 
+                                                                               """ )
+
+
+        
+
+        await ctx.send(embed=embed)
 
     #Running Bot
     bot.run(TOKEN)
