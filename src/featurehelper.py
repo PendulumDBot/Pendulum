@@ -15,10 +15,12 @@ def geocodeForward(location):
     try:    #Timeout Exception
         response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=10)
     except requests.Timeout as err:
-        logging.error({'message':err.message},exc_info=True)
+        logging.error(err.message,exc_info=True)
+        return {'displayName':'Not Found','lat':0.0,'lon':0.0}
     except requests.exceptions.RequestException:
         logging.error(f'Critical Error has occurred')
-        logging.error({'message':err.message},exc_info=True)
+        logging.error(err.message,exc_info=True)
+        return {'displayName':'Not Found','lat':0.0,'lon':0.0}
 
     return json.loads(response.text)[0]
 
@@ -58,11 +60,15 @@ def getCurrentWeather(lon, lat):
         response = requests.get('https://api.open-meteo.com/v1/forecast', params = params, timeout = 10)
     except requests.Timeout as err:
         logging.error(f'Request timed out')
-        logging.error({'message':err.message},exc_info=True)
+        logging.error(err.message,exc_info=True)
+        response = None
     except requests.exceptions.RequestException as err:
         logging.error(f'Critical Error occurred')
-        logging.error({'message':err.message},exc_info=True)
+        logging.error(err.message,exc_info=True)
+        response = None
 
+    if response is None:
+        pass #Do something about no response from api
 
     responseDictionary = json.loads(response.text)
     currentWeather = responseDictionary['current_weather']
