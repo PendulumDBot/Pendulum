@@ -92,4 +92,4 @@ def timeAt(time,timezone,location):
 
     return initTime, targetTime, initLocName, targetLocInfo["locationName"]
 
-print(timeAt("9:09","GMT","UK"))
+#print(timeAt("9:09","GMT","UK"))
