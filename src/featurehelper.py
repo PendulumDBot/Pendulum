@@ -4,13 +4,22 @@ from pytz import timezone, all_timezones
 import requests
 from datetime import datetime
 from .weathercodes import weatherCodes
+import logging
 
 FORMAT = "%Y-%b-%d %X"
 tf = TimezoneFinder()
 
 def geocodeForward(location):
     params = {'q': location,'format':'json'}
-    response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=30)
+
+    try:    #Timeout Exception
+        response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=10)
+    except requests.Timeout as err:
+        logging.error({'message':err.message},exc_info=True)
+    except requests.exceptions.RequestException:
+        logging.error(f'Critical Error has occurred')
+        logging.error({'message':err.message},exc_info=True)
+
     return json.loads(response.text)[0]
 
 def getLocationInfo(location):
@@ -45,7 +54,15 @@ def getCurrentWeather(lon, lat):
         'current_weather': True
     }
 
-    response = requests.get('https://api.open-meteo.com/v1/forecast', params = params, timeout = 30)
+    try:    #Timeout Exception
+        response = requests.get('https://api.open-meteo.com/v1/forecast', params = params, timeout = 10)
+    except requests.Timeout as err:
+        logging.error(f'Request timed out')
+        logging.error({'message':err.message},exc_info=True)
+    except requests.exceptions.RequestException as err:
+        logging.error(f'Critical Error occurred')
+        logging.error({'message':err.message},exc_info=True)
+
 
     responseDictionary = json.loads(response.text)
     currentWeather = responseDictionary['current_weather']
