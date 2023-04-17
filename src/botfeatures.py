@@ -12,12 +12,9 @@ TF = TimezoneFinder()
 FORMAT = "%Y-%b-%d %X"
 
 def getTime(location):
-    tstart = perf_counter()
     geocode = geocodeForward(location)
     locInfo = getLocationInfo(geocode)
     timeInfo = getTimeInfo(locInfo)
-    tend = perf_counter()
-    print(tend-tstart)
     return (timeInfo["currentTime"],locInfo["locationName"])
 
 def getWeather(location):
