@@ -22,7 +22,7 @@ def geocodeForward(location):
     params = {'q': location,'format':'json'}
 
     try:    #Timeout Exception
-        response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=10)
+        response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=0.1)
     except requests.Timeout as err:
         logging.error(err, exc_info = True)
         return {'displayName':'Not Found','lat':0.0,'lon':0.0}
