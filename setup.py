@@ -22,6 +22,7 @@ setup(
         'numpy',
         'pycparser',
         'pytz',
+        'pytest',
         'requests',
         'timezonefinder',
         'wcwidth',
