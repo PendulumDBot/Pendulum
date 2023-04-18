@@ -88,7 +88,7 @@ def main():
     
     
     @bot.command()
-    async def help(ctx):
+    async def h(ctx):
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
         embed.add_field(name=f":hourglass_flowing_sand: Time-Related",value = f"""1. `time` - &time <location>
                                                                                 2. `timediff` - &timediff  <location1> <location2>
