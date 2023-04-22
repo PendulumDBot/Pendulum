@@ -6,10 +6,19 @@ from datetime import datetime
 from .weathercodes import weatherCodes
 import logging
 
+#Constants
 FORMAT = "%Y-%b-%d %X"
 tf = TimezoneFinder()
 
 def geocodeForward(location):
+    """ Converts string into usable location info
+
+    Args:
+        location (string): Address,Country,State of the target Location
+
+    Returns:
+        JSON : Response
+    """
     params = {'q': location,'format':'json'}
 
     try:    #Timeout Exception
@@ -28,12 +37,28 @@ def geocodeForward(location):
     return json.loads(response.text)[0]
 
 def getLocationInfo(location):
+    """Retrieves needed JSON Info from JSON response
+
+    Args:
+        location (JSON String): String retrieved from geocodeForward 
+
+    Returns:
+        dict: Location Name, Latitude, Longitude
+    """
     return { "locationName" : location.get("display_name"),
                  "lat" : float(location.get("lat")),
                  "lon" : float(location.get("lon"))
                  }
 
 def findTimezone(location):
+    """gets timezone from longitude and latitude
+
+    Args:
+        location (dict): dict with lattitude, and longitude
+
+    Returns:
+         str: timezone
+    """
     if location not in all_timezones:
         longitude = location["lon"]
         latitude = location["lat"]
@@ -42,6 +67,14 @@ def findTimezone(location):
        return location
 
 def getTimeInfo(location):
+    """gets timezone, currentime, UTCOffset and Hours 
+
+    Args:
+        location (str): target location
+
+    Returns:
+        dict: with required info
+    """
     tzLocation = findTimezone(location)
     timeNow = datetime.now(timezone(tzLocation))
     timeInfo = {"tzName" : tzLocation,
@@ -52,6 +85,15 @@ def getTimeInfo(location):
     return timeInfo
 
 def getCurrentWeather(lon, lat):
+    """get current liveweather from API
+
+    Args:
+        lon (float): longititude of target location
+        lat (float): latitutde of target location
+
+    Returns:
+        dict: of weather information
+    """
 
     params = {
         'latitude': lat,
@@ -95,6 +137,14 @@ def getCurrentWeather(lon, lat):
     return weatherInfo
 
 def arrowFromWindDirection(direction):
+    """switch case for displaying arrows with respect to wind angle
+
+    Args:
+        direction (float): wind direction in degress
+
+    Returns:
+        string: direction symbol
+    """
     
     num = int(direction)//45
     
