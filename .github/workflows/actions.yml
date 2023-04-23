@@ -29,10 +29,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install .
     - name: Create .env
-      run:
+      run: |
         touch .env
-        echo TOKEN=${{ secrets.API_KEY }} > .env
+        echo TOKEN=${{ secrets.API_KEY }} >> .env
         cat .env
+        echo "ls -a ."
+        ls -a .
     - name: Bot Run Test
       run:
         python run.py
