@@ -33,9 +33,9 @@ jobs:
         touch .env
         echo TOKEN=${{ secrets.API_KEY }} >> .env
         cat .env
-        echo "ls -a ."
-        ls -a .
     - name: Bot Run Test
-      run:
+      run: |
         python run.py
+        sleep 5s
+        ps -elfgrep python
         
