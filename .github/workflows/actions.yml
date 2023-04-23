@@ -27,7 +27,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install .
     - name: Bot Run Test
+      env: #an environment variable
+            super_secret: ${{ secrets.API_KEY }}
       run:
         python run.py
-        env: #an environment variable
-            super_secret: ${{ secrets.SuperSecret }}
+        
