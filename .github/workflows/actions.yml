@@ -28,7 +28,7 @@ jobs:
         pip install .
     - name: Bot Run Test
       env: #an environment variable
-        secrets: ${{ secrets.API_KEY }}
+        .env: ${{ secrets.API_KEY }}
       run:
         python run.py
         
