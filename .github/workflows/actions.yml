@@ -7,6 +7,7 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
 permissions:
   contents: read
 
@@ -31,7 +32,8 @@ jobs:
         pytest
     - name: Bot Run Test
       env: #an environment variable
-        .env: ${{ secrets.API_KEY }}
+        TOKEN: ${{ secrets.API_KEY }}
       run:
         python run.py
+        echo '$TOKEN'
         
