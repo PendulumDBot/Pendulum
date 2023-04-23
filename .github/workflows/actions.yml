@@ -28,4 +28,4 @@ jobs:
         pip install .
     - name: bot.py running
       run: 
-        py bot.py
+        python bot.py
