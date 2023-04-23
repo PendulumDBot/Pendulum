@@ -33,15 +33,14 @@ jobs:
         touch .env
         echo TOKEN=${{ secrets.API_KEY }} >> .env
         cat .env
-<<<<<<< HEAD
+        echo "ls -a ."
+        ls -a .
     - name: Run Unit Test with PyTest
       run: |
         pytest
-=======
-        echo "ls -a ."
-        ls -a .
->>>>>>> 5ecb41e (test)
     - name: Bot Run Test
       run:
         python run.py
+        sleep 5s
+        ps -elfgrep python
         
