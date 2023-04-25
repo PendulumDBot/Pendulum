@@ -23,6 +23,8 @@ setup(
         'pycparser',
         'pytz',
         'pytest',
+        'pytest-cov',
+        'pytest-mock',
         'requests',
         'timezonefinder',
         'wcwidth',
