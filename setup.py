@@ -25,6 +25,7 @@ setup(
         'pytest',
         'pytest-cov',
         'pytest-mock',
+        'pytest-mockito',
         'requests',
         'timezonefinder',
         'wcwidth',
