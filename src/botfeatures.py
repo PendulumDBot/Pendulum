@@ -15,7 +15,7 @@ def getTime(location):
     geocode = geocodeForward(location)
     locInfo = getLocationInfo(geocode)
     timeInfo = getTimeInfo(locInfo)
-    return (timeInfo["currentTime"],locInfo["locationName"])
+    return (timeInfo,locInfo["locationName"])
 
 def getWeather(location):
     
@@ -28,26 +28,17 @@ def getWeather(location):
     return currentWeather
 
 def diffTime(initLoc, targetLoc):
-    Loc1 = geocodeForward(initLoc)
-    Loc2 = geocodeForward(targetLoc)
-
-    #get json info
-    locInfo1 = getLocationInfo(Loc1)
-    locInfo2 = getLocationInfo(Loc2)
-
-    timeInfo1 = getTimeInfo(locInfo1)
-    timeInfo2 = getTimeInfo(locInfo2)
-
+    timeInfo1, locName1 = getTime(initLoc)
+    timeInfo2, locName2 = getTime(targetLoc)
     #get Timezone at Coords
     time1 = timeInfo1["UTCOffsetHrs"]
     time2 = timeInfo2["UTCOffsetHrs"]
-    print(time1,time2)
 
     if(time1 < time2):
-        message = (f'{locInfo1["locationName"]} is behind {locInfo2["locationName"]}'
+        message = (f'{locName1} is behind {locName2}'
                    f' by {time2 - time1} hour(s)')
     else:
-       message = (f'{locInfo1["locationName"]} is ahead {locInfo2["locationName"]}'
+       message = (f'{locName1} is ahead {locName2}'
                    f' by {time1 - time2} hour(s)')
 
     
