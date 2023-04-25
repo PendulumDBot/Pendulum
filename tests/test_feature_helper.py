@@ -1,8 +1,5 @@
 import pytest
 import sys
-from timezonefinder import TimezoneFinder
-from unittest.mock import Mock
-from requests.models import Response
 from src.featurehelper import geocodeForward, getLocationInfo, findTimezone, getTimeInfo, arrowFromWindDirection
 
 arrowList = [
