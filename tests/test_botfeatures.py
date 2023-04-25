@@ -41,7 +41,14 @@ def test_getTime(mocker,geo_code_mock_belgium,get_time_info_mock_belgium) -> Non
         'src.botfeatures.getTimeInfo',
         return_value = get_time_info_mock_belgium
     )
-    expected = ('2023-Apr-25 12:28:11','België / Belgique / Belgien')
+    expected = ({
+        "tzName" : 'Europe/Brussels',
+        "currentTime" : '2023-Apr-25 12:28:11',
+        "UTCOffset" : '+0200',
+        "UTCOffsetHrs" : 2
+        },
+        'België / Belgique / Belgien'
+        )
     assert getTime('Belgium') == expected
 
 @pytest.mark.skip()
