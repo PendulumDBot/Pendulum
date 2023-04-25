@@ -1,5 +1,6 @@
 import pytest
 import sys
+from requests.exceptions import Timeout
 from src.featurehelper import geocodeForward, getLocationInfo, findTimezone, getTimeInfo, arrowFromWindDirection
 
 arrowList = [
@@ -69,6 +70,11 @@ def test_geocodeForward() -> None:
                 "icon": "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png"
             }
     assert geocodeForward('Belgium') == expected
+
+@pytest.mark.skip()
+def test_geocodeForward_timeout_exception() -> None:
+    with pytest.raises(Timeout):
+        assert geocodeForward() == {'displayName':'Not Found','lat':0.0,'lon':0.0}
 
 @pytest.mark.skipif(sys.version_info < (3, 11), reason='StrEnum is only available in python 3.11 and later versions')
 def test_getCurrentWeather() -> None:
