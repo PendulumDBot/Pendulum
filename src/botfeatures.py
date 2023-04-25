@@ -35,9 +35,12 @@ def diffTime(initLoc, targetLoc):
     locInfo1 = getLocationInfo(Loc1)
     locInfo2 = getLocationInfo(Loc2)
 
+    timeInfo1 = getTimeInfo(locInfo1)
+    timeInfo2 = getTimeInfo(locInfo2)
+
     #get Timezone at Coords
-    time1 = getTimeInfo(locInfo1)["UTCOffsetHrs"]
-    time2 = getTimeInfo(locInfo2)["UTCOffsetHrs"]
+    time1 = timeInfo1["UTCOffsetHrs"]
+    time2 = timeInfo2["UTCOffsetHrs"]
     print(time1,time2)
 
     if(time1 < time2):
@@ -48,7 +51,7 @@ def diffTime(initLoc, targetLoc):
                    f' by {time1 - time2} hour(s)')
 
     
-    return message , getTimeInfo(locInfo1)["currentTime"], getTimeInfo(locInfo2)["currentTime"]
+    return message , timeInfo1["currentTime"], timeInfo2["currentTime"]
 
 def timeAt(time,timezone,location):
     """Get time at location converted to target loc
