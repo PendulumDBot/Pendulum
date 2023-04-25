@@ -1,7 +1,12 @@
 import pytest
 import sys
+import json
 from requests.exceptions import Timeout
-from src.featurehelper import geocodeForward, getLocationInfo, findTimezone, getTimeInfo, arrowFromWindDirection
+import requests
+from mockito import when, mock, unstub
+from src.featurehelper import geocodeForward, getLocationInfo, \
+                            findTimezone, getTimeInfo, \
+                            arrowFromWindDirection, getCurrentWeather
 
 arrowList = [
     (275,'→'),(23,'↓'),(270,'→'),(120,'←'),
@@ -77,8 +82,48 @@ def test_geocodeForward_timeout_exception() -> None:
         assert geocodeForward() == {'displayName':'Not Found','lat':0.0,'lon':0.0}
 
 @pytest.mark.skipif(sys.version_info < (3, 11), reason='StrEnum is only available in python 3.11 and later versions')
-def test_getCurrentWeather() -> None:
-    pass
+def test_getCurrentWeather(mocker) -> None:
+    #Mock reponse for weather api call
+    #Create a response object and add below to the text
+    params = {
+        'latitude': 50.6402809,
+        'longitude': 4.6667145,
+        'current_weather': True
+    }
+    response_dict = {
+            "latitude": 50.64,
+            "longitude": 4.6599994,
+            "generationtime_ms": 0.1360177993774414,
+            "utc_offset_seconds": 0,
+            "timezone": "GMT",
+            "timezone_abbreviation": "GMT",
+            "elevation": 139.0,
+            "current_weather": {
+                "temperature": 8.7,
+                "windspeed": 15.5,
+                "winddirection": 338.0,
+                "weathercode": 3,
+                "is_day": 1,
+                "time": "2023-04-25T15:00"
+            }
+        }
+    mock_response = mock({
+        'status_code': 200,
+        'text': json.dumps(response_dict)
+    }, spec=requests.Response)
+    
+    when(requests).get('https://api.open-meteo.com/v1/forecast', params = params, timeout = 10).thenReturn(mock_response)
+
+    expected = {
+        'temp': 8.7,
+        'windspeed': 15.5,
+        'winddirection': 338.0,
+        'arrow': '↘',
+        'weathercode': 'Overcast :cloud:',
+    }
+
+    assert getCurrentWeather(4.6667145,50.6402809) == expected
+    unstub()
 
 def test_getLocationInfo(geo_code_response) -> None:
     expected = {'locationName' : "België / Belgique / Belgien",
