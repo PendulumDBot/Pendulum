@@ -55,7 +55,6 @@ def test_getTime(mocker,geo_code_mock_belgium,get_time_info_mock_belgium) -> Non
 def test_getWeather() -> None:
     pass
 
-
 def test_diffTime(mocker,geo_code_mock_belgium,get_time_info_mock_belgium) -> None:
     expected_message = f'België / Belgique / Belgien is behind Россия by 5 hour(s)'
     result1 = diffTime('Belgium','Russia')[0]
