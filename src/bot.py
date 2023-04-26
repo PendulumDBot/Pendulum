@@ -33,7 +33,7 @@ def main():
         (currentTime, targetLoc) = getTime(args)
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name='The Time Is Currently: ',value = f'{currentTime} at {targetLoc}')
+        embed.add_field(name='The Time Is Currently: ',value = f'{currentTime["currentTime"]} at {targetLoc}')
 
         await ctx.send(embed=embed)
 
