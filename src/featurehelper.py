@@ -81,7 +81,7 @@ def getCurrentWeather(lon, lat):
             'winddirection': None,
             'arrow': None,
             'weathercode': None,
-        } 
+        }
 
     responseDictionary = json.loads(response.text)
     currentWeather = responseDictionary['current_weather']
