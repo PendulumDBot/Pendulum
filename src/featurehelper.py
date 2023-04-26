@@ -23,7 +23,7 @@ def geocodeForward(location):
 
     try:    #Timeout Exception
         response = requests.get(f'https://nominatim.openstreetmap.org/search', params = params, timeout=10)
-    except requests.Timeout as err:
+    except requests.exceptions.Timeout as err:
         logging.error(err, exc_info = True)
         return {'displayName':'Not Found','lat':0.0,'lon':0.0}
     except requests.exceptions.ConnectionError as err:
@@ -103,7 +103,7 @@ def getCurrentWeather(lon, lat):
 
     try:
         response = requests.get('https://api.open-meteo.com/v1/forecast', params = params, timeout = 10)
-    except requests.Timeout as err:
+    except requests.exceptions.Timeout as err:
         logging.error(f'Request timed out')
         logging.error(err,exc_info = True)
         response = None
@@ -117,7 +117,13 @@ def getCurrentWeather(lon, lat):
         response = None
 
     if response is None:
-        pass #Do something about no response from api
+        return {
+            'temp': None,
+            'windspeed': None,
+            'winddirection': None,
+            'arrow': None,
+            'weathercode': None,
+        } 
 
     responseDictionary = json.loads(response.text)
     currentWeather = responseDictionary['current_weather']
