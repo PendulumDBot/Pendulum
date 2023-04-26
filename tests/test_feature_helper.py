@@ -53,7 +53,6 @@ def test_arrowFromWindDirection(input, out) -> None:
 def test_arrowFromWindDirection_invalid() -> None:
     assert arrowFromWindDirection(370) == 'Invalid wind direction'
 
-#Pass 'Beligium' then check response off predetermined 
 def test_geocodeForward() -> None:
     expected = {"place_id": 307842104,
                 "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
@@ -88,8 +87,6 @@ def test_geocodeForward_exception(exception_error) -> None:
 
 @pytest.mark.skipif(sys.version_info < (3, 11), reason='StrEnum is only available in python 3.11 and later versions')
 def test_getCurrentWeather() -> None:
-    #Mock reponse for weather api call
-    #Create a response object and add below to the text
     params = {
         'latitude': 50.6402809,
         'longitude': 4.6667145,
