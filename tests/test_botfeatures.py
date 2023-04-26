@@ -1,8 +1,7 @@
 import pytest
-from unittest.mock import MagicMock
 from src.botfeatures import getTime, getWeather, diffTime, timeAt
 
-@pytest.fixture(scope = 'module')
+@pytest.fixture()
 def geo_code_mock_belgium():
     return {"place_id": 307842104,
             "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
@@ -23,7 +22,7 @@ def geo_code_mock_belgium():
             "icon": "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png"
             }
 
-@pytest.fixture(scope = 'module')
+@pytest.fixture()
 def get_time_info_mock_belgium():
     return {
         "tzName" : 'Europe/Brussels',
@@ -46,16 +45,36 @@ def test_getTime(mocker,geo_code_mock_belgium,get_time_info_mock_belgium) -> Non
         "currentTime" : '2023-Apr-25 12:28:11',
         "UTCOffset" : '+0200',
         "UTCOffsetHrs" : 2
-        },
-        'België / Belgique / Belgien'
-        )
+    }, 'België / Belgique / Belgien')
+
     assert getTime('Belgium') == expected
 
-@pytest.mark.skip()
-def test_getWeather() -> None:
-    pass
+def test_getWeather(mocker) -> None:
+    mock_get_current_weather_belgium = {
+        'temp': 8.7,
+        'windspeed': 15.5,
+        'winddirection': 338.0,
+        'arrow': '↘',
+        'weathercode': 'Overcast :cloud:',
+    }
 
-def test_diffTime(mocker,geo_code_mock_belgium,get_time_info_mock_belgium) -> None:
+    mocker.patch(
+        'src.botfeatures.getCurrentWeather',
+        return_value = mock_get_current_weather_belgium
+    )
+
+    expected = {
+        'location' : "België / Belgique / Belgien",
+        'temp': 8.7,
+        'windspeed': 15.5,
+        'winddirection': 338.0,
+        'arrow': '↘',
+        'weathercode': 'Overcast :cloud:',
+    }
+    
+    assert getWeather('Belgium') == expected
+
+def test_diffTime() -> None:
     expected_message = f'België / Belgique / Belgien is behind Россия by 5 hour(s)'
     result1 = diffTime('Belgium','Russia')[0]
     assert result1 == expected_message
