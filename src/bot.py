@@ -4,6 +4,9 @@ from .botfeatures import getTime, getWeather, diffTime, timeAt
 from dotenv import dotenv_values
 
 secrets=dotenv_values('.env')
+if 'TOKEN' not in secrets:
+    print(secrets.keys())
+    exit()
 TOKEN = secrets['TOKEN']
 
 #Intents
