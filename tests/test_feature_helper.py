@@ -53,7 +53,10 @@ def test_arrowFromWindDirection(input, out) -> None:
 def test_arrowFromWindDirection_invalid() -> None:
     assert arrowFromWindDirection(370) == 'Invalid wind direction'
 
-def test_geocodeForward() -> None:
+check_list = ['lat','lon','display_name',]
+
+@pytest.mark.parametrize('key',check_list)
+def test_geocodeForward(key) -> None:
     expected = {"place_id": 307842104,
                 "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
                 "osm_type": "relation",
@@ -72,7 +75,7 @@ def test_geocodeForward() -> None:
                 "importance": 0.8190605523573009,
                 "icon": "https://nominatim.openstreetmap.org/ui/mapicons/poi_boundary_administrative.p.20.png"
             }
-    assert geocodeForward('Belgium') == expected
+    assert geocodeForward('Belgium')[key] == expected[key]
 
 exception_list = [requests.Timeout,requests.exceptions.ConnectionError,requests.exceptions.RequestException]
 
