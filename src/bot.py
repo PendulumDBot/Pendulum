@@ -1,13 +1,17 @@
 import discord
+import os
 from discord.ext import commands
 from .botfeatures import getTime, getWeather, diffTime, timeAt
 from dotenv import dotenv_values
 
 secrets=dotenv_values('.env')
 if 'TOKEN' not in secrets:
-    print(secrets.keys())
+    secrets['TOKEN'] = os.environ['TOKEN']
+
+try:
+    TOKEN = secrets['TOKEN']
+except Exception:
     exit()
-TOKEN = secrets['TOKEN']
 
 #Intents
 intents=discord.Intents.default()
