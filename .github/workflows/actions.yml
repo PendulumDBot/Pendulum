@@ -39,6 +39,8 @@ jobs:
       run: |
         pytest
     - name: Bot Run Test
+      env: #an environment variable
+        TOKEN: ${{ secrets.API_KEY }}
       run:
         python run.py
         sleep 5s
