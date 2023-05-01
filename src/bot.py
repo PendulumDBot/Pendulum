@@ -39,8 +39,8 @@ def main():
         dp = bot.user.display_avatar
         (currentTime, targetLoc) = getTime(args)
 
-        embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name='The Time Is Currently: ',value = f'{currentTime["currentTime"]} at {targetLoc}')
+        embed = discord.Embed(title = "Current Time", colour = discord.Colour.dark_purple())
+        embed.add_field(name=f'' ,value = f' `{targetLoc}` \n **{currentTime["currentTime"]}**')
 
         await ctx.send(embed=embed)
 
