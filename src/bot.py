@@ -40,7 +40,8 @@ def main():
         (currentTime, targetLoc) = getTime(args)
 
         embed = discord.Embed(title = "Current Time", colour = discord.Colour.dark_purple())
-        embed.add_field(name=f'' ,value = f' `{targetLoc}` \n **{currentTime["currentTime"]}**')
+        embed.add_field(name=f'' ,value = f'**{currentTime["currentTime"]}**')
+        embed.set_footer(text=f'{targetLoc}')
 
         await ctx.send(embed=embed)
 
