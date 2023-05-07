@@ -134,6 +134,10 @@ def main():
 
         await ctx.send(embed=embed)
 
+    @bot.command()
+    async def kill():
+        exit()
+
     #Running Bot
     bot.run(TOKEN)
 
