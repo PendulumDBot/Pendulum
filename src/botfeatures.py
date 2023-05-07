@@ -38,7 +38,7 @@ def diffTime(initLoc, targetLoc):
         message = (f'{locName1} is behind {locName2}'
                    f' by {time2 - time1} hour(s)')
     else:
-       message = (f'{locName1} is ahead {locName2}'
+       message = (f'{locName1} is ahead of {locName2}'
                    f' by {time1 - time2} hour(s)')
 
     
