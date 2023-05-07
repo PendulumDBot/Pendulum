@@ -135,7 +135,9 @@ def main():
         await ctx.send(embed=embed)
 
     @bot.command()
-    async def kill():
+    async def kill(ctx,args = None):
+        if args == None or args == '':
+            exit()
         exit()
 
     #Running Bot
