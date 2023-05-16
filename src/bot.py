@@ -1,10 +1,17 @@
 import discord
+import os
 from discord.ext import commands
 from .botfeatures import getTime, getWeather, diffTime, timeAt
 from dotenv import dotenv_values
 
 secrets=dotenv_values('.env')
-TOKEN = secrets['TOKEN']
+if 'TOKEN' not in secrets:
+    secrets['TOKEN'] = os.environ['TOKEN']
+
+try:
+    TOKEN = secrets['TOKEN']
+except Exception:
+    exit()
 
 #Intents
 intents=discord.Intents.default()
@@ -33,7 +40,7 @@ def main():
         (currentTime, targetLoc) = getTime(args)
 
         embed = discord.Embed(title = "Pendulum", colour = discord.Colour.random())
-        embed.add_field(name='The Time Is Currently: ',value = f'{currentTime} at {targetLoc}')
+        embed.add_field(name='The Time Is Currently: ',value = f'{currentTime["currentTime"]} at {targetLoc}')
 
         await ctx.send(embed=embed)
 
